@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun for Starters - Cambridge English Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --princess-pink: #FFF0F5;
+            --hot-pink: #FF69B4;
+            --lavender: #E6E6FA;
+            --gold: #FFD700;
+            --navy-text: #2B0033;
+            --correct-green: #32CD32;
+            --correct-bg: #F0FFF0;
+            --wrong-red: #FF4500;
+            --wrong-bg: #FFE4E1;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        * { box-sizing: border-box; font-family: 'Nunito', sans-serif; margin: 0; padding: 0; }
+
+        body {
+            background: linear-gradient(135deg, var(--princess-pink) 0%, var(--lavender) 100%);
+            color: var(--navy-text);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 50px;
+        }
+
+        .pattern {
+            position: fixed; z-index: -1; opacity: 0.4;
+            animation: float-soft 6s ease-in-out infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        @keyframes float-soft {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
+
+        /* Header */
+        header {
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            background: var(--glass-bg); padding: 15px 30px; border-radius: 30px;
+            box-shadow: 0 8px 24px rgba(255,105,180,0.15); margin-bottom: 30px;
+            border: 3px solid var(--hot-pink); position: sticky; top: 15px; z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .header-main-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--hot-pink); text-shadow: 1px 1px 0px #fff;}
+        .teacher-tag, .student-tag { font-weight: 700; font-size: 16px; color: var(--navy-text); background: var(--lavender); padding: 5px 15px; border-radius: 20px;}
+        .student-tag { background: #fff; border: 2px solid var(--gold); }
+        .timer {
+            background: var(--gold); color: var(--navy-text); padding: 8px 25px;
+            border-radius: 30px; font-weight: 800; font-size: 20px;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4); transition: 0.3s;
+        }
+        .timer.warning { background: var(--wrong-red); color: white; animation: blink 1s infinite; box-shadow: 0 4px 12px rgba(255, 69, 0, 0.4); }
+        @keyframes blink { 50% { opacity: 0.7; transform: scale(1.05); } }
+
+        /* Card / Question Box */
+        .card {
+            background: var(--glass-bg); border-radius: 24px; padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px;
+            border: 2px solid #fff; backdrop-filter: blur(8px);
+        }
+        h2.part-title { font-family: 'Playfair Display', serif; color: var(--hot-pink); font-weight: 900; font-size: 28px; margin-bottom: 10px; }
+        .instruction { color: #5c2a5d; font-weight: 700; font-size: 18px; margin-bottom: 25px; display: block; line-height: 1.5; }
+
+        .translate-btn {
+            background: var(--lavender); color: var(--navy-text); border: 2px solid var(--hot-pink); padding: 8px 18px;
+            border-radius: 20px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s;
+            margin-bottom: 15px; display: inline-block;
+        }
+        .translate-btn:hover { background: var(--hot-pink); color: #fff; }
+
+        /* Images Container */
+        .img-container { 
+            text-align: center; margin-bottom: 25px; position: relative; 
+            width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;
+            border-radius: 16px; box-shadow: 0 5px 15px rgba(255,105,180,0.15); border: 4px solid var(--lavender);
+            overflow: hidden; /* Cực kỳ quan trọng để bo góc đúng ảnh */
+            background: #fff;
+        }
+        
+        /* CĂN TỈ LỆ KHUNG CHO TỪNG BỨC ẢNH CHÍNH XÁC */
+        .ratio-read2 { aspect-ratio: 1000 / 750; } /* Tỉ lệ ngang / dọc xấp xỉ ảnh R2 */
+        .ratio-read3 { aspect-ratio: 1000 / 710; } /* Tỉ lệ ngang / dọc xấp xỉ ảnh R3 */
+        .ratio-read4 { aspect-ratio: 1000 / 380; } /* Tỉ lệ ngang / dọc xấp xỉ ảnh R4 */
+        .ratio-lis3 { aspect-ratio: 1000 / 350; }  /* Tỉ lệ ngang / dọc xấp xỉ ảnh L3 */
+
+        .img-container img { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
+            display: block; 
+        }
+        
+        .error-img { color: var(--wrong-red); font-weight: 700; display: none; padding: 20px; border: 2px dashed var(--wrong-red); border-radius: 16px; background: #fff; position: relative; z-index: 5;}
+
+        /* Interactive On-Image Inputs */
+        .overlay-input {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--hot-pink);
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2vw; /* Co giãn font chữ theo màn hình */
+            color: var(--navy-text);
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 0; /* Xóa padding để khung không bị lố */
+            z-index: 10;
+        }
+        @media (min-width: 950px) { .overlay-input { font-size: 12px; } } /* Cố định font trên màn to */
+        @media (max-width: 600px) { .overlay-input { font-size: 10px; border-width: 1px;} }
+
+        .overlay-input:focus { background: #fff; border-color: var(--gold); box-shadow: 0 0 8px var(--gold); }
+        .overlay-input:disabled { cursor: not-allowed; }
+        .overlay-input.is-correct { border-color: var(--correct-green) !important; background-color: var(--correct-bg) !important; color: #228B22 !important; }
+        .overlay-input.is-wrong { border-color: var(--wrong-red) !important; background-color: var(--wrong-bg) !important; color: var(--wrong-red) !important; }
+
+        .overlay-feedback {
+            position: absolute; background: #fff; border-radius: 6px; padding: 5px 8px; font-size: 11px;
+            font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: none; z-index: 100;
+            max-width: 150px; text-align: center; border: 2px solid var(--lavender);
+        }
+
+        /* Audio Player */
+        .audio-wrapper {
+            display: flex; align-items: center; justify-content: center; background: #fff; padding: 12px 20px;
+            border-radius: 50px; box-shadow: 0 4px 12px rgba(255,105,180,0.15); margin: 0 auto 25px auto; width: max-content;
+            border: 2px solid var(--hot-pink);
+        }
+        .play-btn {
+            background: var(--hot-pink); color: #fff; border: none; width: 45px; height: 45px;
+            border-radius: 50%; font-size: 20px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .play-btn:hover:not(:disabled) { transform: scale(1.1); box-shadow: 0 0 10px var(--hot-pink); }
+        .play-btn:disabled { background: #DDA0DD; cursor: not-allowed; }
+        .progress-bar { width: 160px; height: 10px; background: var(--lavender); border-radius: 10px; margin: 0 15px; overflow: hidden; }
+        .progress { height: 100%; background: var(--hot-pink); width: 0%; transition: 0.1s linear; }
+        .play-count { font-weight: 800; color: var(--navy-text); font-size: 15px; }
+
+        /* Standard Inputs & Controls */
+        input[type="text"]:not(.overlay-input) {
+            border: 3px solid var(--lavender); border-radius: 50px; padding: 12px 20px;
+            font-size: 18px; font-weight: 700; color: var(--navy-text); outline: none; transition: 0.2s;
+            width: 100%; text-align: center; background: #fff;
+        }
+        input[type="text"]:not(.overlay-input):focus { border-color: var(--hot-pink); box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.2); }
+        input[type="text"]:not(.overlay-input):disabled { background: #fdf5f9; cursor: not-allowed; border-color: #eee; }
+        input[type="text"].is-correct:not(.overlay-input) { border-color: var(--correct-green); background-color: var(--correct-bg); color: #228B22; }
+        input[type="text"].is-wrong:not(.overlay-input) { border-color: var(--wrong-red); background-color: var(--wrong-bg); color: var(--wrong-red); }
+        
+        select {
+            border: 3px solid var(--lavender); border-radius: 50px; padding: 12px 20px; width: 100%;
+            font-size: 16px; font-weight: 700; color: var(--navy-text); outline: none; transition: 0.2s;
+            cursor: pointer; appearance: none; background: #fff url('data:image/svg+xml;utf8,<svg fill="%23FF69B4" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 15px center; background-size: 25px; padding-right: 45px;
+        }
+        select:focus { border-color: var(--hot-pink); }
+        select:disabled { background: #fdf5f9; cursor: not-allowed; }
+
+        .q-row { display: flex; align-items: center; margin-bottom: 20px; font-size: 18px; font-weight: 700; flex-wrap: wrap; gap: 10px; }
+        .q-num { background: var(--hot-pink); color: #fff; width: 35px; height: 35px; min-width: 35px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 16px; font-weight: 900; margin-right: 10px; box-shadow: 0 3px 6px rgba(255,105,180,0.3);}
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, var(--hot-pink), #FF1493); color: #fff; border: none; padding: 18px 45px;
+            font-size: 22px; font-weight: 900; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 6px 0 #C71585, 0 10px 20px rgba(255,20,147,0.3); transition: all 0.1s; display: block; margin: 35px auto;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn:active { transform: translateY(6px); box-shadow: 0 0 0 #C71585; }
+        .btn:hover { filter: brightness(1.1); }
+        .btn-start { background: linear-gradient(45deg, var(--gold), #FFA500); box-shadow: 0 6px 0 #DAA520, 0 10px 20px rgba(255,215,0,0.3); color: var(--navy-text);}
+        .btn-start:active { box-shadow: 0 0 0 #DAA520; }
+
+        #start-screen { text-align: center; padding: 70px 20px; border: 4px solid var(--gold); }
+        #start-screen h1 { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--hot-pink); font-weight: 900; margin-bottom: 20px; text-shadow: 2px 2px 0px var(--princess-pink);}
+
+        /* Standard Feedback UI */
+        .feedback { margin-top: 8px; font-size: 15px; font-weight: 700; padding: 12px 18px; border-radius: 16px; display: none; width: 100%; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .fb-correct { background: var(--correct-bg); color: #228B22; border: 2px solid var(--correct-green); }
+        .fb-wrong { background: var(--wrong-bg); color: var(--wrong-red); border: 2px solid var(--wrong-red); }
+
+        /* Custom Cupboard Layout */
+        .cupboard-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 25px; }
+        .cupboard-col { background: #fff; padding: 25px 20px; border-radius: 20px; flex: 1; min-width: 250px; border: 3px solid var(--lavender); box-shadow: 0 5px 15px rgba(0,0,0,0.03); text-align: center;}
+        .cupboard-title { font-size: 22px; color: var(--hot-pink); font-weight: 900; margin-bottom: 20px; background: var(--princess-pink); padding: 10px; border-radius: 12px;}
+        .cupboard-col input { margin-bottom: 15px; }
+
+        /* Report Screen */
+        #report-screen { display: none; text-align: center; border: 4px solid var(--hot-pink);}
+        .score-circle {
+            width: 160px; height: 160px; border-radius: 50%; background: #fff;
+            border: 10px solid var(--gold); display: flex; align-items: center; justify-content: center;
+            font-size: 45px; font-weight: 900; color: var(--hot-pink); margin: 0 auto 30px; box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+        .report-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 15px rgba(255,105,180,0.1); }
+        .report-table th, .report-table td { padding: 18px; text-align: center; border-bottom: 2px solid var(--princess-pink); font-weight: 700; font-size: 17px; }
+        .report-table th { background: var(--hot-pink); color: #fff; font-family: 'Playfair Display', serif; font-size: 20px;}
+        .badge { padding: 6px 15px; border-radius: 20px; font-size: 14px; color: #fff; font-weight: 800; }
+        .bg-mastered { background: var(--correct-green); }
+        .bg-practice { background: var(--gold); color: var(--navy-text);}
+        .bg-weak { background: var(--wrong-red); }
+        
+        .teacher-comment { background: #fff; padding: 30px; border-radius: 20px; border: 4px dashed var(--gold); text-align: left; box-shadow: 0 8px 20px rgba(255,215,0,0.15); }
+        .teacher-comment h3 { color: var(--hot-pink); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 900; font-family: 'Playfair Display', serif;}
+
+        canvas#confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+    </style>
+</head>
+<body>
+    <div style="font-size:55px; position:fixed; top:10%; left:5%;" class="pattern">👑</div>
+    <div style="font-size:60px; position:fixed; top:40%; right:5%; animation-delay: 1.5s;" class="pattern">✨</div>
+    <div style="font-size:50px; position:fixed; bottom:15%; left:8%; animation-delay: 2.5s;" class="pattern">🦄</div>
+    <div style="font-size:65px; position:fixed; top:75%; right:10%; animation-delay: 0.8s;" class="pattern">💖</div>
+
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        <!-- START SCREEN -->
+        <div id="start-screen" class="card">
+            <h1>🏰 Fun for Starters ✨</h1>
+            <p style="font-size: 20px; font-weight: 700; color: #5c2a5d; margin-bottom: 30px;">Teacher: Ms Mai Thuy</p>
+            <input type="text" id="student-name" placeholder="Enter your name..." autocomplete="off">
+            <button type="button" class="btn btn-start" id="btn-start-test">START TEST 🚀</button>
+        </div>
+
+        <!-- TEST SCREEN -->
+        <div id="test-screen" style="display: none;">
+            <header>
+                <div class="header-top">
+                    <div class="teacher-tag">👑 Teacher: Ms Mai Thuy ✨</div>
+                    <div class="header-main-title">FUN FOR STARTERS TEST</div>
+                    <div class="timer" id="timer">45:00</div>
+                </div>
+                <div class="student-tag">Student: <span id="display-name"></span></div>
+            </header>
+
+            <div style="text-align: right;">
+                <button type="button" class="translate-btn" id="translate-btn">🇬🇧 Bật Dịch Tiếng Việt</button>
+            </div>
+
+            <!-- SECTION 1: LISTENING -->
+            <div id="section-listening">
+                <h1 style="color: var(--hot-pink); font-family: 'Playfair Display', serif; font-weight: 900; margin-bottom: 25px; text-align: center; font-size: 36px;">🎧 SECTION 1: LISTENING</h1>
+                
+                <!-- L - Part 1 -->
+                <div class="card">
+                    <h2 class="part-title">Part 1</h2>
+                    <span class="instruction">
+                        Listen and tick the box.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Nghe và chọn đáp án A, B hoặc C.)</span>
+                    </span>
+                    <div class="img-container" style="border:none; box-shadow:none; max-width: 100%;">
+                        <img src="lis1.jpg" style="position:static; border-radius:16px; border:4px solid var(--lavender);" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find lis1.jpg</div>
+                    </div>
+                    <div class="audio-wrapper">
+                        <button type="button" class="play-btn" id="btn-audio1">▶</button>
+                        <div class="progress-bar"><div class="progress" id="prog-audio1"></div></div>
+                        <span class="play-count" id="count-audio1">0/2</span>
+                        <audio id="audio1" src="audio1.mp3"></audio>
+                    </div>
+                    <div id="l1-dropdowns"></div>
+                </div>
+
+                <!-- L - Part 2 -->
+                <div class="card">
+                    <h2 class="part-title">Part 2</h2>
+                    <span class="instruction">
+                        Listen and draw lines.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Nghe và nối đúng tên với hành động của người trong tranh.)</span>
+                    </span>
+                    <div class="img-container" style="border:none; box-shadow:none; max-width: 100%;">
+                        <img src="lis2.jpg" style="position:static; border-radius:16px; border:4px solid var(--lavender);" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find lis2.jpg</div>
+                    </div>
+                    <div class="audio-wrapper">
+                        <button type="button" class="play-btn" id="btn-audio2">▶</button>
+                        <div class="progress-bar"><div class="progress" id="prog-audio2"></div></div>
+                        <span class="play-count" id="count-audio2">0/2</span>
+                        <audio id="audio2" src="audio2.mp3"></audio>
+                    </div>
+                    <div id="l2-dropdowns"></div>
+                </div>
+
+                <!-- L - Part 3 (Absolute Positioning) -->
+                <div class="card">
+                    <h2 class="part-title">Part 3</h2>
+                    <span class="instruction">
+                        Listen and write a name or a number.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Nghe và điền trực tiếp tên hoặc số lên hình.)</span>
+                    </span>
+                    <div class="audio-wrapper">
+                        <button type="button" class="play-btn" id="btn-audio3">▶</button>
+                        <div class="progress-bar"><div class="progress" id="prog-audio3"></div></div>
+                        <span class="play-count" id="count-audio3">0/2</span>
+                        <audio id="audio3" src="audio3.mp3"></audio>
+                    </div>
+                    
+                    <!-- Kỹ thuật tỷ lệ khung hình cố định (aspect-ratio) -->
+                    <div class="img-container ratio-lis3">
+                        <img src="lis3.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find lis3.png</div>
+                        
+                        <!-- Overlay Inputs for L3 -->
+                        <input type="text" class="overlay-input" id="l3q1" data-ans="good" data-expl="Phố Good." style="top: 61%; left: 70%; width: 14%; height: 8%;">
+                        <div class="overlay-feedback" id="fb-l3q1" style="top: 52%; left: 70%;"></div>
+
+                        <input type="text" class="overlay-input" id="l3q2" data-ans="15|fifteen" data-expl="Có 15 học sinh." style="top: 72%; left: 71%; width: 15%; height: 8%;">
+                        <div class="overlay-feedback" id="fb-l3q2" style="top: 63%; left: 71%;"></div>
+
+                        <input type="text" class="overlay-input" id="l3q3" data-ans="kim" data-expl="Tên Kim." style="top: 80%; left: 71%; width: 15%; height: 8%;">
+                        <div class="overlay-feedback" id="fb-l3q3" style="top: 89%; left: 71%;"></div>
+
+                        <input type="text" class="overlay-input" id="l3q4" data-ans="hall" data-expl="Cô Hall." style="top: 88%; left: 73%; width: 15%; height: 8%;">
+                        <div class="overlay-feedback" id="fb-l3q4" style="top: 97%; left: 73%;"></div>
+
+                        <input type="text" class="overlay-input" id="l3q5" data-ans="8|eight" data-expl="Lớp 8." style="top: 95.8%; left: 71%; width: 15%; height: 8%;">
+                        <div class="overlay-feedback" id="fb-l3q5" style="top: 87%; left: 71%;"></div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" id="btn-submit-listening">SUBMIT LISTENING 🎧</button>
+                <button type="button" class="btn btn-start" id="btn-start-reading" style="display:none;">START READING & WRITING ➡</button>
+            </div>
+
+            <!-- SECTION 2: READING & WRITING -->
+            <div id="section-reading" style="display: none;">
+                <h1 style="color: var(--hot-pink); font-family: 'Playfair Display', serif; font-weight: 900; margin-bottom: 25px; text-align: center; font-size: 36px;">📖 SECTION 2: READING & WRITING</h1>
+                
+                <!-- R - Part 1 -->
+                <div class="card">
+                    <h2 class="part-title">Part 1</h2>
+                    <span class="instruction">
+                        Put the words in the cupboard. Write the "-ing" form of the verbs.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Thêm đuôi "-ing" vào từ và GÕ vào tủ.)</span>
+                        <div style="background: #fff; padding: 10px; border-radius: 10px; border: 2px solid var(--gold); margin-top: 15px; font-weight: 800; text-align: center;">
+                            Words: run, smile, stop, draw, swim, wave, ride, sleep, clap, count
+                        </div>
+                    </span>
+                    <div class="img-container" style="border:none; box-shadow:none; max-width: 100%;">
+                        <img src="read1.jpg" style="position:static; border-radius:16px; border:4px solid var(--lavender);" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find read1.jpg</div>
+                    </div>
+                    
+                    <div class="cupboard-grid">
+                        <div class="cupboard-col">
+                            <h3 class="cupboard-title">+ 'ing'</h3>
+                            <div><input type="text" id="r1q1"><div class="feedback" id="fb-r1q1"></div></div>
+                            <div><input type="text" id="r1q2"><div class="feedback" id="fb-r1q2"></div></div>
+                            <div><input type="text" id="r1q3"><div class="feedback" id="fb-r1q3"></div></div>
+                        </div>
+                        <div class="cupboard-col">
+                            <h3 class="cupboard-title">double</h3>
+                            <div><input type="text" id="r1q4"><div class="feedback" id="fb-r1q4"></div></div>
+                            <div><input type="text" id="r1q5"><div class="feedback" id="fb-r1q5"></div></div>
+                            <div><input type="text" id="r1q6"><div class="feedback" id="fb-r1q6"></div></div>
+                            <div><input type="text" id="r1q7"><div class="feedback" id="fb-r1q7"></div></div>
+                        </div>
+                        <div class="cupboard-col">
+                            <h3 class="cupboard-title">goodbye 'e'</h3>
+                            <div><input type="text" id="r1q8"><div class="feedback" id="fb-r1q8"></div></div>
+                            <div><input type="text" id="r1q9"><div class="feedback" id="fb-r1q9"></div></div>
+                            <div><input type="text" id="r1q10"><div class="feedback" id="fb-r1q10"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- R - Part 2 (Absolute Positioning) -->
+                <div class="card">
+                    <h2 class="part-title">Part 2</h2>
+                    <span class="instruction">
+                        Complete the questions with Who, What, Where or How.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Điền trực tiếp từ để hỏi vào chỗ trống trên ảnh.)</span>
+                    </span>
+                    
+                    <div class="img-container ratio-read2">
+                        <img src="read2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find read2.jpg</div>
+                        
+                        <!-- Overlay Inputs for R2 -->
+                        <input type="text" class="overlay-input" id="r2q1" data-ans="what" data-expl="Hỏi hành động -> What." style="top: 73.5%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q1" style="top: 67%; left: 8.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r2q2" data-ans="who" data-expl="Hỏi người -> Who." style="top: 78%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q2" style="top: 72%; left: 8.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r2q3" data-ans="how" data-expl="Hỏi số lượng -> How." style="top: 81.8%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q3" style="top: 76%; left: 8.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r2q4" data-ans="where" data-expl="Hỏi địa điểm -> Where." style="top: 85.8%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q4" style="top: 80%; left: 8.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r2q5" data-ans="what" data-expl="Hỏi đồ vật -> What." style="top: 89.8%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q5" style="top: 84%; left: 8.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r2q6" data-ans="who" data-expl="Hỏi người -> Who." style="top: 93.8%; left: 8.5%; width: 13.5%; height: 4%;">
+                        <div class="overlay-feedback" id="fb-r2q6" style="top: 88%; left: 8.5%;"></div>
+                    </div>
+                </div>
+
+                <!-- R - Part 3 (Absolute Positioning) -->
+                <div class="card">
+                    <h2 class="part-title">Part 3</h2>
+                    <span class="instruction">
+                        Read the sentences. Write the names in the boxes to complete the sentences.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Điền tên trực tiếp vào các ô trống viền cam trên ảnh.)</span>
+                    </span>
+                    
+                    <div class="img-container ratio-read3">
+                        <img src="read3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find read3.jpg</div>
+
+                        <!-- Precision Overlays for R3 -->
+                        <input type="text" class="overlay-input" id="r3q1" data-ans="may" data-expl="May is eating an ice cream." style="top: 10%; left: 63.8%; width: 12%; height: 6.2%;">
+                        <div class="overlay-feedback" id="fb-r3q1" style="top: 16.5%; left: 63.8%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q2" data-ans="tom" data-expl="Tom's trousers are blue." style="top: 45%; left: 51.5%; width: 12%; height: 6.2%;">
+                        <div class="overlay-feedback" id="fb-r3q2" style="top: 38%; left: 51.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q3" data-ans="sue" data-expl="Sue is wearing a dress." style="top: 7%; left: 35%; width: 12.6%; height: 6.2%;">
+                        <div class="overlay-feedback" id="fb-r3q3" style="top: 13.5%; left: 35%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q4" data-ans="nick" data-expl="Nick's hair is black." style="top: 91.8%; left: 18.8%; width: 12.6%; height: 6.1%;">
+                        <div class="overlay-feedback" id="fb-r3q4" style="top: 85%; left: 18.8%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q5" data-ans="lucy" data-expl="Lucy is reading a book." style="top: 19.5%; left: 41.5%; width: 12.5%; height: 6.2%;">
+                        <div class="overlay-feedback" id="fb-r3q5" style="top: 26%; left: 41.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q6" data-ans="pat" data-expl="Pat is next to her horse." style="top: 45%; left: 7%; width: 12.6%; height: 6.2%;">
+                        <div class="overlay-feedback" id="fb-r3q6" style="top: 51.5%; left: 7%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q7" data-ans="alice" data-expl="Alice is holding a handbag." style="top: 36%; left: 29.5%; width: 12.8%; height: 6.1%;">
+                        <div class="overlay-feedback" id="fb-r3q7" style="top: 42.5%; left: 29.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r3q8" data-ans="sam" data-expl="Sam's got a kite." style="top: 54.5%; left: 60%; width: 11.8%; height: 6.1%;">
+                        <div class="overlay-feedback" id="fb-r3q8" style="top: 61%; left: 60%;"></div>
+                    </div>
+                </div>
+
+                <!-- R - Part 4 (Absolute Positioning) -->
+                <div class="card">
+                    <h2 class="part-title">Part 4</h2>
+                    <span class="instruction">
+                        Write the correct words next to their numbers.
+                        <span class="vie-trans" style="display:none; color: var(--hot-pink); margin-top:5px;">(Điền từ trực tiếp lên ảnh.)</span>
+                        <div style="background: #fff; padding: 10px; border-radius: 10px; border: 2px solid var(--gold); margin-top: 15px; font-weight: 800; text-align: center;">
+                            Words: bookshop, clock, flats, park, street, tree
+                        </div>
+                    </span>
+                    
+                    <div class="img-container ratio-read4">
+                        <img src="read4.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="error-img">❌ Error: Cannot find read4.png</div>
+                        
+                        <!-- Overlay Inputs for R4 -->
+                        <input type="text" class="overlay-input" id="r4q1" data-ans="clock" data-expl="Đồng hồ." style="top: 36.5%; left: 18.5%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q1" style="top: 45.5%; left: 18.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r4q2" data-ans="park" data-expl="Công viên." style="top: 47%; left: 68.3%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q2" style="top: 56%; left: 68.3%;"></div>
+
+                        <input type="text" class="overlay-input" id="r4q3" data-ans="street" data-expl="Đường phố." style="top: 89.5%; left: 50.5%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q3" style="top: 80%; left: 50.5%;"></div>
+
+                        <input type="text" class="overlay-input" id="r4q4" data-ans="tree" data-expl="Cây." style="top: 59.8%; left: 7%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q4" style="top: 52%; left: 7%;"></div>
+
+                        <input type="text" class="overlay-input" id="r4q5" data-ans="flats" data-expl="Chung cư." style="top: 47%; left: 48.2%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q5" style="top: 56%; left: 48.2%;"></div>
+
+                        <input type="text" class="overlay-input" id="r4q6" data-ans="bookshop" data-expl="Hiệu sách." style="top: 61.5%; left: 29%; width: 10.5%; height: 7.8%;">
+                        <div class="overlay-feedback" id="fb-r4q6" style="top: 70%; left: 29%;"></div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn" id="btn-submit-reading">SUBMIT TEST 👑</button>
+                <button type="button" class="btn btn-start" id="btn-view-report" style="display:none;">VIEW REPORT CARD 🏆</button>
+            </div>
+        </div>
+
+        <!-- REPORT SCREEN -->
+        <div id="report-screen" class="card">
+            <h1 style="font-size: 38px; color: var(--hot-pink); margin-bottom: 20px; font-family: 'Playfair Display', serif;">🎉 REPORT CARD 🎉</h1>
+            <h2 style="color: var(--navy-text); margin-bottom: 30px;">Name: <br><span id="report-name" style="color: var(--hot-pink); font-size: 32px; font-family: 'Playfair Display', serif;"></span></h2>
+            
+            <div class="score-circle">
+                <span id="total-score">0</span><span style="font-size: 20px; color: var(--navy-text);">/200</span>
+            </div>
+
+            <table class="report-table">
+                <thead><tr><th>Skill</th><th>Score (%)</th><th>Level</th></tr></thead>
+                <tbody id="report-body"></tbody>
+            </table>
+
+            <div class="teacher-comment" id="teacher-comment"></div>
+        </div>
+    </div>
+
+<script>
+// --- Data ---
+const l1Questions = [
+    { q: 'What is Sam riding?', ans: 'B. Bike', expl: 'Sam đang đạp xe đạp.' },
+    { q: 'Which boy is Tom?', ans: 'C. Boy with car', expl: 'Tom đang chơi với xe hơi đồ chơi.' },
+    { q: 'What is Sue painting?', ans: 'A. Doll', expl: 'Sue đang tô màu búp bê.' },
+    { q: 'Where is Nick?', ans: 'B. Kitchen', expl: 'Nick đang ở trong bếp.' },
+    { q: 'What is Ben reading about?', ans: 'C. Motorbike', expl: 'Ben đang đọc sách về xe máy.' }
+];
+const l1OptionsAll = [
+    ['A. Horse', 'B. Bike', 'C. Boat'],
+    ['A. Boy with train', 'B. Boy with robot', 'C. Boy with car'],
+    ['A. Doll', 'B. Bus', 'C. Monster'],
+    ['A. Bedroom', 'B. Kitchen', 'C. Garden'],
+    ['A. Baseball', 'B. Giraffe', 'C. Motorbike']
+];
+
+const l2Names = ['Ben', 'Lucy', 'Eva', 'Tom', 'Pat', 'Alice']; 
+const l2Actions = [
+    { text: 'counting the fish', isAns: true, name: 'Ben', expl: 'Ben đứng cạnh hồ nước đếm cá.' },
+    { text: 'sitting on the grass drawing flowers', isAns: true, name: 'Lucy', expl: 'Lucy ngồi vẽ hoa.' },
+    { text: 'playing on the skateboard', isAns: true, name: 'Eva', expl: 'Eva chơi trượt ván.' },
+    { text: 'playing with a tennis racket', isAns: true, name: 'Tom', expl: 'Tom chơi vợt tennis.' },
+    { text: 'sleeping under the umbrella', isAns: true, name: 'Pat', expl: 'Pat ngủ dưới ô.' },
+    { text: 'reading a book on the chair', isAns: false, name: '', expl: '' } 
+];
+
+let timerInterval;
+let timeLeft = 45 * 60; // 45 minutes
+let scores = {
+    listening: { correct: 0, total: 15, percent: 0 },
+    reading: { correct: 0, total: 30, percent: 0 } 
+};
+
+let audioCtx = null;
+const audioState = { audio1: 0, audio2: 0, audio3: 0 };
+
+window.addEventListener('DOMContentLoaded', () => {
+    try {
+        // Build L1
+        const l1Div = document.getElementById('l1-dropdowns');
+        if(l1Div) {
+            l1Questions.forEach((item, idx) => {
+                let row = document.createElement('div');
+                row.className = 'q-row';
+                let sel = document.createElement('select');
+                sel.id = `l1q${idx+1}`;
+                sel.dataset.ans = item.ans;
+                sel.dataset.expl = item.expl;
+                
+                sel.innerHTML = `<option value="">-- Choose --</option>`;
+                l1OptionsAll[idx].forEach(opt => {
+                    sel.innerHTML += `<option value="${opt}">${opt}</option>`;
+                });
+                
+                row.innerHTML = `<span class="q-num">${idx+1}</span> <span style="min-width:200px;">${item.q}</span> ➡ `;
+                let wrap = document.createElement('div');
+                wrap.style.flex = "1";
+                wrap.appendChild(sel);
+                wrap.innerHTML += `<div class="feedback" id="fb-${sel.id}"></div>`;
+                row.appendChild(wrap);
+                l1Div.appendChild(row);
+            });
+        }
+
+        // Build L2
+        const l2Div = document.getElementById('l2-dropdowns');
+        if(l2Div) {
+            let shuffledActions = [...l2Actions].sort(() => Math.random() - 0.5);
+            l2Names.forEach((name, idx) => {
+                let row = document.createElement('div');
+                row.className = 'q-row';
+                let sel = document.createElement('select');
+                sel.id = `l2q${idx+1}`;
+                
+                let correctAct = l2Actions.find(a => a.name === name);
+                sel.dataset.ans = correctAct ? correctAct.text : 'none';
+                sel.dataset.expl = correctAct ? correctAct.expl : 'This person is not in the picture.';
+                
+                sel.innerHTML = `<option value="">-- Choose action --</option>`;
+                shuffledActions.forEach(act => {
+                    sel.innerHTML += `<option value="${act.text}">${act.text}</option>`;
+                });
+                sel.innerHTML += `<option value="none">(Not in the picture)</option>`;
+                
+                row.innerHTML = `<span class="q-num">${idx+1}</span> <span style="min-width: 60px;">${name}</span> ➡ `;
+                let wrap = document.createElement('div');
+                wrap.style.flex = "1";
+                wrap.appendChild(sel);
+                wrap.innerHTML += `<div class="feedback" id="fb-${sel.id}"></div>`;
+                row.appendChild(wrap);
+                l2Div.appendChild(row);
+            });
+        }
+
+        // Button Listeners
+        document.getElementById('btn-start-test')?.addEventListener('click', startTest);
+        document.getElementById('btn-submit-listening')?.addEventListener('click', submitListening);
+        document.getElementById('btn-start-reading')?.addEventListener('click', startReading);
+        document.getElementById('btn-submit-reading')?.addEventListener('click', submitReading);
+        document.getElementById('btn-view-report')?.addEventListener('click', generateReport);
+        document.getElementById('translate-btn')?.addEventListener('click', toggleTranslate);
+
+        // Audio Setup
+        ['audio1', 'audio2', 'audio3'].forEach(id => {
+            const btn = document.getElementById(`btn-${id}`);
+            const aud = document.getElementById(id);
+            if(btn && aud) {
+                btn.addEventListener('click', () => { playCustomAudio(id, btn); });
+                aud.addEventListener('timeupdate', function() { updateProgress(this, `prog-${id}`); });
+                aud.addEventListener('ended', function() { audioEnded(id, `btn-${id}`, `count-${id}`); });
+            }
+        });
+
+    } catch(e) {
+        console.error("Render Error:", e);
+    }
+});
+
+let isTranslated = false;
+function toggleTranslate() {
+    isTranslated = !isTranslated;
+    const btn = document.getElementById('translate-btn');
+    if (btn) btn.innerText = isTranslated ? '🇻🇳 Tắt Dịch Tiếng Việt' : '🇬🇧 Bật Dịch Tiếng Việt';
+    document.querySelectorAll('.vie-trans').forEach(el => {
+        el.style.display = isTranslated ? 'block' : 'none';
+    });
+}
+
+function initAudio() {
+    try {
+        if (!audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if(AudioContext) audioCtx = new AudioContext();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    } catch(e) {}
+}
+
+function playTone(type) {
+    try {
+        initAudio();
+        if(!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        if(type === 'ding') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        } else {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        }
+        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+    } catch(e) {}
+}
+
+function playCustomAudio(id, btn) {
+    try {
+        initAudio(); 
+        const audio = document.getElementById(id);
+        if(!audio) return;
+        if(audioState[id] >= 2) return;
+        
+        if(audio.paused) {
+            document.querySelectorAll('audio').forEach(a => { if(a.id !== id) a.pause(); });
+            let playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    btn.innerHTML = '⏸';
+                }).catch(error => {
+                    alert(`⚠️ Error: Cannot play file '${id}.mp3'. Please check your folder.`);
+                    btn.innerHTML = '▶';
+                });
+            }
+        } else {
+            audio.pause();
+            btn.innerHTML = '▶';
+        }
+    } catch (e) {
+        console.error("Audio Play Error:", e);
+    }
+}
+
+function updateProgress(audio, progId) {
+    const prog = document.getElementById(progId);
+    if(prog && audio.duration) {
+        let percent = (audio.currentTime / audio.duration) * 100;
+        prog.style.width = percent + '%';
+    }
+}
+
+function audioEnded(id, btnId, countId) {
+    const btn = document.getElementById(btnId);
+    const countSpan = document.getElementById(countId);
+    if(btn) btn.innerHTML = '▶';
+    audioState[id]++;
+    if(countSpan) countSpan.innerText = `${audioState[id]}/2 Lần`;
+    if(audioState[id] >= 2 && btn) {
+        btn.disabled = true;
+    }
+}
+
+function stopAllAudio() {
+    document.querySelectorAll('audio').forEach(a => {
+        a.pause();
+        let btn = document.getElementById('btn-' + a.id);
+        if(btn && !btn.disabled) btn.innerHTML = '▶';
+    });
+}
+
+// --- Main Flow ---
+function startTest() {
+    try {
+        let nameInput = document.getElementById('student-name');
+        let name = nameInput ? nameInput.value.trim() : "";
+        if(!name) { name = "Anonymous Princess"; }
+        
+        let displayEl = document.getElementById('display-name');
+        if (displayEl) displayEl.innerText = name;
+        
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('test-screen').style.display = 'block';
+        window.scrollTo(0,0);
+        
+        initAudio(); 
+        startTimer(autoSubmitCurrent);
+    } catch(e) {
+        alert("Error loading test! Please refresh.");
+    }
+}
+
+function startTimer(callback) {
+    clearInterval(timerInterval);
+    timeLeft = 45 * 60; // 45 minutes total
+    const timerEl = document.getElementById('timer');
+    if(timerEl) timerEl.classList.remove('warning');
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        if (timerEl) timerEl.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        
+        if (timeLeft <= 180 && timerEl) timerEl.classList.add('warning');
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("⏰ Time's up! Submitting test...");
+            if(typeof callback === 'function') callback();
+        }
+    }, 1000);
+}
+
+function autoSubmitCurrent() {
+    if(document.getElementById('section-listening').style.display !== 'none') {
+        submitListening();
+        submitReading();
+    } else {
+        submitReading();
+    }
+}
+
+function showFeedbackOverlay(id, isCorrect, correctAnsText, explText) {
+    const fb = document.getElementById('fb-' + id);
+    const input = document.getElementById(id);
+    if(!fb || !input) return;
+    
+    fb.style.display = 'block';
+    let html = "";
+    if(isCorrect) {
+        input.classList.add('is-correct');
+        html += '✅<br>';
+    } else {
+        input.classList.add('is-wrong');
+        html += `❌ <b>Ans: ${correctAnsText}</b><br>`;
+    }
+    
+    if(explText) {
+        html += `<span style="font-size:11px; font-weight:normal; color:var(--navy-text)">${explText}</span>`;
+    }
+    fb.innerHTML = html;
+    
+    input.disabled = true;
+    if(input.tagName === "SELECT") input.parentElement.classList.add('disabled');
+}
+
+function showFeedbackNormal(id, isCorrect, correctAnsText, explText) {
+    const fb = document.getElementById('fb-' + id);
+    const input = document.getElementById(id);
+    if(!fb || !input) return;
+    
+    fb.style.display = 'block';
+    let html = "";
+    if(isCorrect) {
+        input.classList.add('is-correct');
+        fb.classList.add('fb-correct');
+        html += '✅ <b>Correct!</b><br>';
+    } else {
+        input.classList.add('is-wrong');
+        fb.classList.add('fb-wrong');
+        html += `❌ <b>Answer: ${correctAnsText}</b><br>`;
+    }
+    
+    if(explText) {
+        html += `<span style="font-size:14px; font-weight:normal; margin-top:5px; display:block; color:var(--navy-text)">✨ <i>${explText}</i></span>`;
+    }
+    fb.innerHTML = html;
+    
+    input.disabled = true;
+    if(input.tagName === "SELECT") input.parentElement.classList.add('disabled');
+}
+
+function submitListening() {
+    try {
+        stopAllAudio();
+        let scoreL = 0;
+        
+        // L1
+        for(let i=1; i<=5; i++) {
+            let id = 'l1q'+i; let el = document.getElementById(id);
+            if(el) {
+                let val = el.value; let ans = el.dataset.ans;
+                if(val === ans) { scoreL++; showFeedbackNormal(id, true, "", el.dataset.expl); }
+                else { showFeedbackNormal(id, false, ans, el.dataset.expl); }
+            }
+        }
+
+        // L2
+        for(let i=1; i<=l2Names.length; i++) {
+            let id = 'l2q'+i; let el = document.getElementById(id);
+            if(el) {
+                let val = el.value; let ans = el.dataset.ans;
+                if(val === ans) { scoreL++; showFeedbackNormal(id, true, "", el.dataset.expl); }
+                else { showFeedbackNormal(id, false, ans === 'none' ? '(Not match)' : ans, el.dataset.expl); }
+            }
+        }
+
+        // L3 (Overlay)
+        for(let i=1; i<=5; i++) {
+            let id = 'l3q'+i; let el = document.getElementById(id);
+            if(el) {
+                let val = el.value.trim().toLowerCase();
+                let answers = el.dataset.ans.toLowerCase().split('|');
+                if(answers.includes(val)) { scoreL++; showFeedbackOverlay(id, true, "", el.dataset.expl); }
+                else { showFeedbackOverlay(id, false, answers[0], el.dataset.expl); }
+                el.disabled = true;
+            }
+        }
+
+        scores.listening.correct = scoreL;
+        scores.listening.percent = Math.round((scoreL / 16) * 100); 
+        
+        document.getElementById('btn-submit-listening').style.display = 'none';
+        document.getElementById('btn-start-reading').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(e) {
+        console.error("Listening Submit Error:", e);
+    }
+}
+
+function startReading() {
+    document.getElementById('section-listening').style.display = 'none';
+    document.getElementById('section-reading').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitReading() {
+    try {
+        clearInterval(timerInterval);
+        let scoreR = 0;
+
+        // R1 - Flexible
+        const r1Cats = [
+            { ids: ['r1q1', 'r1q2', 'r1q3'], ans: ['drawing', 'sleeping', 'counting'], expl: "Giữ nguyên +ing: draw -> drawing, sleep -> sleeping, count -> counting." },
+            { ids: ['r1q4', 'r1q5', 'r1q6', 'r1q7'], ans: ['running', 'stopping', 'swimming', 'clapping'], expl: "Nhân đôi phụ âm: run -> running, stop -> stopping, swim -> swimming, clap -> clapping." },
+            { ids: ['r1q8', 'r1q9', 'r1q10'], ans: ['smiling', 'waving', 'riding'], expl: "Bỏ 'e' thêm -ing: smile -> smiling, wave -> waving, ride -> riding." }
+        ];
+
+        r1Cats.forEach(cat => {
+            let used = [];
+            cat.ids.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) {
+                    let val = el.value.trim().toLowerCase();
+                    if(cat.ans.includes(val) && !used.includes(val)) {
+                        used.push(val); scoreR++;
+                        showFeedbackNormal(id, true, "", cat.expl);
+                    } else {
+                        let missing = cat.ans.find(a => !used.includes(a));
+                        if(missing) used.push(missing); 
+                        showFeedbackNormal(id, false, missing || cat.ans[0], cat.expl);
+                    }
+                    el.disabled = true;
+                }
+            });
+        });
+
+        // Overlay Checker
+        const checkOnewordOverlay = (prefix, total) => {
+            for(let i=1; i<=total; i++) {
+                let id = prefix+i; let el = document.getElementById(id);
+                if(el) {
+                    let val = el.value.trim().toLowerCase();
+                    let answers = el.dataset.ans.toLowerCase().split('|');
+                    if(answers.includes(val)) { scoreR++; showFeedbackOverlay(id, true, "", el.dataset.expl); }
+                    else showFeedbackOverlay(id, false, answers[0], el.dataset.expl);
+                    el.disabled = true;
+                }
+            }
+        }
+        
+        checkOnewordOverlay('r2q', 6);
+        checkOnewordOverlay('r3q', 8);
+        checkOnewordOverlay('r4q', 6);
+
+        scores.reading.correct = scoreR;
+        scores.reading.percent = Math.round((scoreR / 30) * 100); 
+
+        document.getElementById('btn-submit-reading').style.display = 'none';
+        document.getElementById('btn-view-report').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch(e) {
+        console.error("Reading Submit Error:", e);
+    }
+}
+
+function generateReport() {
+    try {
+        document.getElementById('test-screen').style.display = 'none';
+        document.getElementById('report-screen').style.display = 'block';
+        window.scrollTo(0,0);
+        
+        let nameInput = document.getElementById('student-name');
+        let studentName = nameInput ? nameInput.value.trim() : "";
+        document.getElementById('report-name').innerText = studentName ? studentName : "Anonymous Princess";
+        
+        let totalPercentL = scores.listening.percent;
+        let totalPercentR = scores.reading.percent;
+        let total200 = totalPercentL + totalPercentR;
+        
+        if (total200 >= 100) { playTone('ding'); } else { playTone('buzzer'); }
+        
+        let currentScore = 0;
+        let totalEl = document.getElementById('total-score');
+        let interval = setInterval(() => {
+            currentScore += 3;
+            if(currentScore >= total200) { currentScore = total200; clearInterval(interval); }
+            if(totalEl) totalEl.innerText = currentScore;
+        }, 20);
+
+        const getBadge = (pct) => {
+            if(pct > 80) return '<span class="badge bg-mastered">Mastered (>80%)</span>';
+            if(pct >= 50) return '<span class="badge bg-practice">Needs Practice (50-80%)</span>';
+            return '<span class="badge bg-weak">Weakness (<50%)</span>';
+        };
+
+        let tbody = document.getElementById('report-body');
+        if(tbody) {
+            tbody.innerHTML = `
+                <tr><td>🎧 Listening</td><td>${totalPercentL}%</td><td>${getBadge(totalPercentL)}</td></tr>
+                <tr><td>📖 Reading & Writing</td><td>${totalPercentR}%</td><td>${getBadge(totalPercentR)}</td></tr>
+            `;
+        }
+
+        let commentBox = document.getElementById('teacher-comment');
+        if(commentBox) {
+            let msg = "";
+            if (totalPercentL > 80 && totalPercentR > 80) {
+                msg = `<h3>🎉 Lâu đài phép thuật chúc mừng con! 👑</h3>Tiên nữ Mai Thùy rất tự hào về con. Cả kỹ năng Nghe và Đọc Viết của con đều cực kỳ vững vàng. Cô trao tặng con chiếc <b>'Vương miện Trí tuệ'</b> nhé! Giữ vững phong độ này nha!`;
+            } else if (totalPercentL < totalPercentR) {
+                msg = `<h3>🎧 Kỹ năng Nghe đang làm khó con đúng không? 🥺</h3>Cô Mai Thùy nhận thấy con hay bị lỡ nhịp ở phần Listening. Lần tới học, cô sẽ vung <b>'Đũa phép Lắng nghe'</b> cho con nha! Nhớ nghe kỹ tên và chi tiết nhé. Cố lên!`;
+            } else if (totalPercentR < totalPercentL) {
+                msg = `<h3>📖 Phần Đọc Viết đang bị sai chính tả xíu xiu nè! ✨</h3>Mắt con tinh lắm nhưng cô Mai Thùy thấy con vẫn cần mượn <b>'Gương thần Soi lỗi'</b> để soi kỹ từ vựng và ngữ pháp (thêm đuôi -ing) đó! Nhớ cẩn thận nha công chúa.`;
+            } else {
+                msg = `<h3>🌟 Cố gắng thêm chút nữa nha! 💖</h3>Con đã làm rất tốt việc hoàn thành bài thi! Để nâng cao điểm số, cô tặng con <b>'Bột tiên Ghi nhớ'</b>. Mỗi ngày con ôn 5 từ vựng mới là lần sau chắc chắn sẽ đậu điểm cao!`;
+            }
+            commentBox.innerHTML = msg;
+        }
+        
+        triggerConfetti();
+    } catch(e) {
+        console.error("Report Error:", e);
+    }
+}
+
+function triggerConfetti() {
+    const canvas = document.getElementById('confetti');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const pieces = [];
+    for(let i=0; i<150; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
+            size: Math.random() * 10 + 5,
+            color: ['#FF69B4', '#E6E6FA', '#FFD700', '#FF1493', '#FFF0F5'][Math.floor(Math.random() * 5)],
+            vy: Math.random() * 4 + 2, vx: Math.random() * 2 - 1, rot: Math.random() * 360
+        });
+    }
+    function update() {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        let active = false;
+        pieces.forEach(p => {
+            p.y += p.vy; p.x += p.vx;
+            if(p.y < canvas.height) active = true;
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot++ * Math.PI/180);
+            ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+            ctx.restore();
+        });
+        if(active) requestAnimationFrame(update);
+    }
+    update();
+}
+</script>
+</body>
+</html>
